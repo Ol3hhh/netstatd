@@ -14,6 +14,8 @@ A Linux daemon that monitors network traffic on a network interface, counts pack
 ---
 
 ## Running 
+
+- mkdir bin
 - make clean && make
 - sudo ./bin/daemon &
   or
