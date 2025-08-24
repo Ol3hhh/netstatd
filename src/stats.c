@@ -1,17 +1,17 @@
-#include "stats.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
+#include <unistd.h>
+
+#include "stats.h"
 
 IPNode* insert_ip(IPNode *root, uint32_t ip) {
     if (!root) {
-        IPNode *node = malloc(sizeof(IPNode));
+        IPNode *node = calloc(1, sizeof(IPNode));
         node->ip = ip;
         node->count = 1;
-        node->left = node->right = NULL;
         return node;
     }
-
     if (ip == root->ip) {
         root->count++;
     } else if (ip < root->ip) {
@@ -19,7 +19,6 @@ IPNode* insert_ip(IPNode *root, uint32_t ip) {
     } else {
         root->right = insert_ip(root->right, ip);
     }
-
     return root;
 }
 
@@ -30,15 +29,16 @@ IPNode* find_ip(IPNode *root, uint32_t ip) {
     return find_ip(root->right, ip);
 }
 
-void print_stats(IPNode *root) {
+void print_stats(IPNode *root, int client_fd) {
     if (!root) return;
-    print_stats(root->left);
-
+    print_stats(root->left, client_fd);
     struct in_addr addr;
     addr.s_addr = root->ip;
-    printf("%s -> %lu\n", inet_ntoa(addr), root->count);
-
-    print_stats(root->right);
+    char buf[128];
+    int n = snprintf(buf, sizeof(buf), "%s -> %lu\n",
+                     inet_ntoa(addr), root->count);
+    write(client_fd, buf, n);
+    print_stats(root->right, client_fd);
 }
 
 void free_stats(IPNode *root) {
