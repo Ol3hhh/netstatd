@@ -19,7 +19,7 @@ A Linux daemon that monitors network traffic on a network interface, counts pack
   or
 - sudo ./bin/cli start
 
-- sudo ./bin/cli stat [interface] (eth0 default, if you don't have  please change maunaly to your default one in daemon.c)
+- `sudo ./bin/cli stat [interface]` (the default interface is `eth0`. If your system uses a different interface, update `current_iface` in `daemon.c` before compiling)
 - sudo ./bin/cli select iface [interface]
 - sudo ./bin/cli show [ip address]
 - sudo ./bin/cli --help
