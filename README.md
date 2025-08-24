@@ -4,17 +4,6 @@ A Linux daemon that monitors network traffic on a network interface, counts pack
 
 ---
 
-## Features
-
-- Real-time packet sniffing using **libpcap**
-- IP-based packet counting stored in **SQLite**
-- Control and query via a **UNIX domain socket**
-- CLI client for interacting with the daemon
-- Supports switching interfaces on the fly
-- Graceful shutdown with signal handling
-
----
-
 ## Requirements
 
 - Linux system
